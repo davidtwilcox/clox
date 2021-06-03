@@ -1,0 +1,4 @@
+C:\Users\david\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\211.7442.42\bin\cmake\win\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - NMake Makefiles" "C:\Users\david\OneDrive - David Wilcox Photography\Code\clox"
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/Users/david/OneDrive - David Wilcox Photography/Code/clox/cmake-build-debug

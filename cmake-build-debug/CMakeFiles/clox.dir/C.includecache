@@ -1,0 +1,58 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/david/OneDrive - David Wilcox Photography/Code/clox/chunk.c
+stdlib.h
+-
+chunk.h
+C:/Users/david/OneDrive - David Wilcox Photography/Code/clox/chunk.h
+memory.h
+C:/Users/david/OneDrive - David Wilcox Photography/Code/clox/memory.h
+
+C:/Users/david/OneDrive - David Wilcox Photography/Code/clox/chunk.h
+common.h
+C:/Users/david/OneDrive - David Wilcox Photography/Code/clox/common.h
+value.h
+C:/Users/david/OneDrive - David Wilcox Photography/Code/clox/value.h
+
+C:/Users/david/OneDrive - David Wilcox Photography/Code/clox/common.h
+stdbool.h
+-
+stddef.h
+-
+stdint.h
+-
+
+C:/Users/david/OneDrive - David Wilcox Photography/Code/clox/debug.c
+stdio.h
+-
+debug.h
+C:/Users/david/OneDrive - David Wilcox Photography/Code/clox/debug.h
+value.h
+C:/Users/david/OneDrive - David Wilcox Photography/Code/clox/value.h
+
+C:/Users/david/OneDrive - David Wilcox Photography/Code/clox/debug.h
+chunk.h
+C:/Users/david/OneDrive - David Wilcox Photography/Code/clox/chunk.h
+
+C:/Users/david/OneDrive - David Wilcox Photography/Code/clox/main.c
+common.h
+C:/Users/david/OneDrive - David Wilcox Photography/Code/clox/common.h
+chunk.h
+C:/Users/david/OneDrive - David Wilcox Photography/Code/clox/chunk.h
+debug.h
+C:/Users/david/OneDrive - David Wilcox Photography/Code/clox/debug.h
+
+C:/Users/david/OneDrive - David Wilcox Photography/Code/clox/memory.h
+common.h
+C:/Users/david/OneDrive - David Wilcox Photography/Code/clox/common.h
+
+C:/Users/david/OneDrive - David Wilcox Photography/Code/clox/value.h
+common.h
+C:/Users/david/OneDrive - David Wilcox Photography/Code/clox/common.h
+
