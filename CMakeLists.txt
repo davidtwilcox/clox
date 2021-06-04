@@ -5,6 +5,10 @@ set(CMAKE_C_STANDARD 11)
 
 set(SOURCE_CODE
         main.c
-        chunk.c memory.c debug.c value.c)
+        chunk.c
+        memory.c
+        debug.c
+        value.c
+        vm.c)
 
 add_executable(clox ${SOURCE_CODE})
