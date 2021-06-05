@@ -9,6 +9,6 @@ set(SOURCE_CODE
         memory.c
         debug.c
         value.c
-        vm.c)
+        vm.c compiler.c scanner.c scanner.h)
 
 add_executable(clox ${SOURCE_CODE})
