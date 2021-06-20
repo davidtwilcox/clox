@@ -110,6 +110,11 @@ static bool call(ObjClosure* closure, int argCount) {
 static bool callValue(Value callee, int argCount) {
   if (IS_OBJ(callee)) {
     switch (OBJ_TYPE(callee)) {
+    case OBJ_CLASS: {
+      ObjClass* klass = AS_CLASS(callee);
+      vm.stackTop[-argCount - 1] = OBJ_VAL(newInstance(klass));
+      return true;
+    }
     case OBJ_CLOSURE:
       return call(AS_CLOSURE(callee), argCount);
     case OBJ_NATIVE:
@@ -204,7 +209,7 @@ static InterpretResult run() {
       push(valueType(a op b)); \
     } while (false)
 
-    for (;;) {
+  for (;;) {
 #ifdef DEBUG_TRACE_EXECUTION
       printf("          ");
       for (Value* slot = vm.stack; slot < vm.stackTop; slot++) {
@@ -223,10 +228,18 @@ static InterpretResult run() {
         push(constant);
         break;
       }
-      case OP_NIL: push(NIL_VAL); break;
-      case OP_TRUE: push(BOOL_VAL(true)); break;
-      case OP_FALSE: push(BOOL_VAL(false)); break;
-      case OP_POP: pop(); break;
+      case OP_NIL:
+        push(NIL_VAL);
+        break;
+      case OP_TRUE:
+        push(BOOL_VAL(true));
+        break;
+      case OP_FALSE:
+        push(BOOL_VAL(false));
+        break;
+      case OP_POP:
+        pop();
+        break;
       case OP_GET_LOCAL: {
         uint8_t slot = READ_BYTE();
         push(frame->slots[slot]);
@@ -238,7 +251,7 @@ static InterpretResult run() {
         break;
       }
       case OP_GET_GLOBAL: {
-        ObjString* name = READ_STRING();
+        ObjString *name = READ_STRING();
         Value value;
         if (!tableGet(&vm.globals, name, &value)) {
           runtimeError("Undefined variable '%s'.", name->chars);
@@ -248,13 +261,13 @@ static InterpretResult run() {
         break;
       }
       case OP_DEFINE_GLOBAL: {
-        ObjString* name = READ_STRING();
+        ObjString *name = READ_STRING();
         tableSet(&vm.globals, name, peek(0));
         pop();
         break;
       }
       case OP_SET_GLOBAL: {
-        ObjString* name = READ_STRING();
+        ObjString *name = READ_STRING();
         if (tableSet(&vm.globals, name, peek(0))) {
           tableDelete(&vm.globals, name);
           runtimeError("Undefined variable '%s'.", name->chars);
@@ -272,13 +285,49 @@ static InterpretResult run() {
         *frame->closure->upvalues[slot]->location = peek(0);
         break;
       }
+      case OP_GET_PROPERTY: {
+        if (!IS_INSTANCE(peek(0))) {
+          runtimeError("Only instances have properties.");
+          return INTERPRET_RUNTIME_ERROR;
+        }
+
+        ObjInstance* instance = AS_INSTANCE(peek(0));
+        ObjString* name = READ_STRING();
+
+        Value value;
+        if (tableGet(&instance->fields, name, &value)) {
+          pop(); // Instance.
+          push(value);
+          break;
+        }
+
+        runtimeError("Undefined property '%s'.", name->chars);
+        return INTERPRET_RUNTIME_ERROR;
+      }
+      case OP_SET_PROPERTY: {
+        if (!IS_INSTANCE(peek(1))) {
+          runtimeError("Only instances have fields.");
+          return INTERPRET_RUNTIME_ERROR;
+        }
+
+        ObjInstance* instance = AS_INSTANCE(peek(1));
+        tableSet(&instance->fields, READ_STRING(), peek(0));
+        Value value = pop();
+        pop();
+        push(value);
+        break;
+      }
       case OP_EQUAL:
         Value b = pop();
         Value a = pop();
         push(BOOL_VAL(valuesEqual(a, b)));
         break;
-      case OP_GREATER: BINARY_OP(BOOL_VAL, >); break;
-      case OP_LESS: BINARY_OP(BOOL_VAL, <); break;
+      case OP_GREATER:
+        BINARY_OP(BOOL_VAL, >);
+        break;
+      case OP_LESS:
+        BINARY_OP(BOOL_VAL, <);
+        break;
       case OP_ADD: {
         if (IS_STRING(peek(0)) && IS_STRING(peek(1))) {
           concatenate();
@@ -292,9 +341,15 @@ static InterpretResult run() {
         }
         break;
       }
-      case OP_SUBTRACT: BINARY_OP(NUMBER_VAL, -); break;
-      case OP_MULTIPLY: BINARY_OP(NUMBER_VAL, *); break;
-      case OP_DIVIDE: BINARY_OP(NUMBER_VAL, /); break;
+      case OP_SUBTRACT:
+        BINARY_OP(NUMBER_VAL, -);
+        break;
+      case OP_MULTIPLY:
+        BINARY_OP(NUMBER_VAL, *);
+        break;
+      case OP_DIVIDE:
+        BINARY_OP(NUMBER_VAL, /);
+        break;
       case OP_NOT:
         push(BOOL_VAL(isFalsey(pop())));
         break;
@@ -316,7 +371,8 @@ static InterpretResult run() {
       }
       case OP_JUMP_IF_FALSE: {
         uint16_t offset = READ_SHORT();
-        if (isFalsey(peek(0))) frame->ip += offset;
+        if (isFalsey(peek(0)))
+          frame->ip += offset;
         break;
       }
       case OP_LOOP: {
@@ -333,8 +389,8 @@ static InterpretResult run() {
         break;
       }
       case OP_CLOSURE: {
-        ObjFunction* function = AS_FUNCTION(READ_CONSTANT());
-        ObjClosure* closure = newClosure(function);
+        ObjFunction *function = AS_FUNCTION(READ_CONSTANT());
+        ObjClosure *closure = newClosure(function);
         push(OBJ_VAL(closure));
         for (int i = 0; i < closure->upvalueCount; i++) {
           uint8_t isLocal = READ_BYTE();
@@ -366,6 +422,9 @@ static InterpretResult run() {
         frame = &vm.frames[vm.frameCount - 1];
         break;
       }
+      case OP_CLASS:
+        push(OBJ_VAL(newClass(READ_STRING())));
+        break;
       }
     }
 
