@@ -12,6 +12,7 @@ set(SOURCE_CODE
         vm.c
         object.c
         compiler.c
-        scanner.c table.c table.h)
+        scanner.c
+        table.c)
 
 add_executable(clox ${SOURCE_CODE})
