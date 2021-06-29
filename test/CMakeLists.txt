@@ -19,7 +19,7 @@ set(SOURCE_CODE
         ${CODE_UNDER_TEST}
         ../3rdparty/unity/unity.c
         main.c
-        testchunk.c)
+        testchunk.c testvalue.c)
 
 add_executable(testclox ${CODE_UNDER_TEST} ${SOURCE_CODE})
 
