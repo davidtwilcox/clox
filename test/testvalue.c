@@ -69,13 +69,19 @@ void test_valuesequal_should_evaluate_correctly(void) {
   TEST_ASSERT_TRUE(valuesEqual(bool1, bool2));
   TEST_ASSERT_FALSE(valuesEqual(bool1, bool3));
 
-  char* hello = "Hello";
+  char* hello1 = "Hello";
+  char* hello2 = "Hello";
   char* world = "World";
-  Value str1 = OBJ_VAL(hello);
-  Value str2 = OBJ_VAL(hello);
+  Value str1 = OBJ_VAL(hello1);
+  Value str2 = OBJ_VAL(hello1);
   Value str3 = OBJ_VAL(world);
+  Value str4 = OBJ_VAL(hello2);
   TEST_ASSERT_TRUE(valuesEqual(str1, str2));
   TEST_ASSERT_FALSE(valuesEqual(str1, str3));
+  // Because the compiler normally uses string interning,
+  // valuesEqual is expected to return false if objects are not
+  // the same pointer, even if values are equal
+  TEST_ASSERT_FALSE(valuesEqual(str1, str4));
 }
 
 void run_value_tests() {
