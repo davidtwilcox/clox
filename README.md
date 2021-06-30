@@ -36,12 +36,17 @@ This is (so far) a direct C implementation
 of clox in Section III of Bob Nystrom's site [Crafting Interpreters](https://craftinginterpreters.com/).
 
 As the project grows, a standard library and new language features will be added. Expect this
-implementation to deviate from the original Lox specification in the future.
+implementation to deviate from the original Lox specification in the future. When that happens,
+the project will be renamed (per Bob Nystrom's request in his book) to avoid confusion with
+the original Lox language specification.
 
 
 ### Built With
 
-C and the C standard library.
+* C and the C standard library
+* [Unity](https://github.com/ThrowTheSwitch/Unity) unit testing framework for C
+  * Note: this dependency is embedded in the `3rdparty/unity` folder in the repo due to a
+  minor change in a header required for compilation on Windows 10
 
 
 <!-- GETTING STARTED -->
@@ -52,7 +57,8 @@ Linux or Unix-like system. I can verify this will work on macOS as well.
 
 ### Prerequisites
 
-None other than a working C compiler and C standard library for your system.
+None other than a working C compiler and C standard library for your system. The Unity test framework
+is included in the `3rdparty/unity` folder in the repo.
 
 ### Installation
 
@@ -65,7 +71,10 @@ git clone https://github.com/davidtwilcox/clox.git
 $ cmake -DCMAKE_BUILD_TYPE=Debug -G "YOUR_PREFERRED_IDE" PATH_TO_SOURCE
 ```
 
+### Repository structure
 
+The clox compiler is in the `src` folder. Unit tests are in the `test` folder. All external
+dependencies that are shipped with the project are in the `3rdparty` folder.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
@@ -74,6 +83,8 @@ For now, reference the Lox grammar [appendix](https://craftinginterpreters.com/a
 Crafting Interpreters site. In the future, as clox adds new features and forks from the original
 language specification, a full grammar reference will be included here.
 
+To run unit tests for the compiler, build the code in the `test` folder. This exercises the
+compiler itself.
 
 
 <!-- ROADMAP -->
