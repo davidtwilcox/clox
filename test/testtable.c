@@ -99,6 +99,34 @@ void test_tableaddall_should_copy_table(void) {
   freeTable(&table2);
 }
 
+void test_tablefindstring_should_find_existing_string(void) {
+  Table table;
+  initTable(&table);
+
+  char* key = "key";
+  int len = 3;
+  ObjString* keyStr = copyString(key, len);
+  Value value = NUMBER_VAL(12.3);
+  TEST_ASSERT_TRUE(tableSet(&table, keyStr, value));
+
+  uint32_t hash = hashString(key, len);
+  TEST_ASSERT_TRUE(tableFindString(&table, key, len, hash));
+
+  freeTable(&table);
+}
+
+void test_tablefindstring_should_fail_to_find_nonexistent_string(void) {
+  Table table;
+  initTable(&table);
+
+  char* key = "key";
+  int len = 3;
+  uint32_t hash = hashString(key, len);
+  TEST_ASSERT_FALSE(tableFindString(&table, key, len, hash));
+
+  freeTable(&table);
+}
+
 void run_table_tests() {
   printf("==== Starting <Table> tests ====\n");
 
@@ -110,6 +138,8 @@ void run_table_tests() {
   RUN_TEST(test_tabledelete_should_remove_existing_key);
   RUN_TEST(test_tabledelete_should_fail_to_remove_nonexistent_key);
   RUN_TEST(test_tableaddall_should_copy_table);
+  RUN_TEST(test_tablefindstring_should_find_existing_string);
+  RUN_TEST(test_tablefindstring_should_fail_to_find_nonexistent_string);
 
   tearDown_table_tests();
 

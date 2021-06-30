@@ -103,6 +103,7 @@ ObjFunction* newFunction();
 ObjInstance* newInstance(ObjClass* klass);
 ObjNative* newNative(NativeFn function);
 
+uint32_t hashString(const char* key, int length);
 ObjString* takeString(char* chars, int length);
 ObjString* copyString(const char* chars, int length);
 
