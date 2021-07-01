@@ -56,7 +56,7 @@ void initVM() {
   resetStack();
   vm.objects = NULL;
   vm.bytesAllocated = 0;
-  vm.nextGC = 1024 * 1024;
+  vm.nextGC = INIT_NEXT_GC;
 
   vm.grayCount = 0;
   vm.grayCapacity = 0;
