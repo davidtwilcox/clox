@@ -93,7 +93,7 @@ compiler itself.
 See the [open issues](https://github.com/davidtwilcox/clox/issues) for a list of proposed features
 (and known issues).
 
-* Add a standard library to enable more functionality
+* \[IN PROGRESS\] Add a standard library to enable more functionality
 * Implement new language features
 
 
