@@ -47,5 +47,7 @@ void freeVM();
 InterpretResult interpret(const char* source);
 void push(Value value);
 Value pop();
+void runtimeError(const char* format, ...);
+void defineNative(const char* name, NativeFn function);
 
 #endif // CLOX_VM_H

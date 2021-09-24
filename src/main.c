@@ -6,6 +6,7 @@
 #include "chunk.h"
 #include "debug.h"
 #include "vm.h"
+#include "library/main_define.h"
 
 static void repl() {
   char line[1024];
@@ -59,6 +60,7 @@ static void runFile(const char* path) {
 
 int main(int argc, const char* argv[]) {
   initVM();
+  defineAllFunctions();
 
   if (argc == 1) {
     repl();

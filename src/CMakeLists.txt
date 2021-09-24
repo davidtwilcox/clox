@@ -16,4 +16,8 @@ set(SOURCE_CODE
         scanner.c
         table.c)
 
-add_executable(clox ${SOURCE_CODE})
+set(LIBRARY_SOURCE_CODE
+        library/main_define.c
+        library/math_native.c)
+
+add_executable(clox ${SOURCE_CODE} ${LIBRARY_SOURCE_CODE})
