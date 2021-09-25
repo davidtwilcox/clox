@@ -1,14 +1,6 @@
 #include "math_native.h"
 #include <math.h>
 
-static inline void checkArgCount(int expected, int actual) {
-  if (expected != actual) {
-    runtimeError("Expected %d argument(s) but received %d",
-                 expected,
-                 actual);
-  }
-}
-
 void defineMathFunctions() {
   defineNative("sqrt", sqrtNative);
   defineNative("pow", powNative);

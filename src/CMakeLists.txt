@@ -18,6 +18,6 @@ set(SOURCE_CODE
 
 set(LIBRARY_SOURCE_CODE
         library/main_define.c
-        library/math_native.c)
+        library/math_native.c library/stats_native.c library/stats_native.h library/common_library.c)
 
 add_executable(clox ${SOURCE_CODE} ${LIBRARY_SOURCE_CODE})
