@@ -5,10 +5,14 @@ void defineStatsFunctions() {
 }
 
 Value averageNative(int argCount, Value* args) {
-  double sum = 0.0;
+  double mean = 0.0;
+  int count = 1;
   for (int i = 0; i < argCount; i++) {
-    sum += AS_NUMBER(args[i]);
+    double value = AS_NUMBER(args[i]);
+    double diff = (value - mean) / count;
+    mean = mean + diff;
+    count++;
   }
 
-  return NUMBER_VAL(sum / (double)argCount);
+  return NUMBER_VAL(mean);
 }
